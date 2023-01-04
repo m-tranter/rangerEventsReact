@@ -1,12 +1,16 @@
+import { Link, useLoaderData } from "react-router-dom";
+
 const dateOptions = {
   weekday: "long",
   year: "numeric",
   month: "long",
   day: "numeric",
 };
+
 const formatDate = (value) => {
   return value.toLocaleString("en-GB", dateOptions);
 };
+
 const getTime = (value) => {
   let time = value.toLocaleTimeString([], {
     hour: "numeric",
@@ -37,13 +41,13 @@ const elem = (item) => {
         )}
       </div>
       <div className="card-body col-12 col-md-8 text-center text-md-start ps-md-4 ps-xl-2">
-        <button
-          onClick={() => console.log("View details")}
+        <Link
+          to={`events/${item.sys.slug}`}
           role="button"
           className="ranger-event-title-link-button mb-3"
         >
           {item.entryTitle}
-        </button>
+        </Link>
         {formatDate(item.dateStartEnd.from) ===
         formatDate(item.dateStartEnd.to) ? (
           <>
@@ -71,7 +75,8 @@ const elem = (item) => {
   );
 };
 
-const Listing = ({ items }) => {
+const Listing = () => {
+  const { items } = useLoaderData();
   return items.map((item) => elem(item));
 };
 
